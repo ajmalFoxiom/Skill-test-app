@@ -1,0 +1,59 @@
+name: test_app
+description: "Skill test app"
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  get: ^4.6.6
+  flutter_screenutil: ^5.9.3
+  flutter_svg: ^2.0.17
+  lottie: ^3.3.1
+  cached_network_image: ^3.4.1
+  shared_preferences: ^2.5.1
+  dots_indicator: ^3.0.0
+  carousel_slider:
+    git:
+      url: https://github.com/sampaio96/flutter_carousel_slider.git
+      ref: master
+  fluttertoast: ^8.2.11
+  shimmer: ^3.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/fonts/
+    - assets/lottie/
+
+  fonts:
+    - family: Oxygen-Light
+      fonts:
+        - asset: assets/fonts/Oxygen-Light.ttf
+          weight: 300
+    - family: Oxygen-Regular
+      fonts:
+        - asset: assets/fonts/Oxygen-Regular.ttf
+          weight: 400
+    - family: Oxygen-Bold
+      fonts:
+        - asset: assets/fonts/Oxygen-Bold.ttf
+          weight: 700
+    - family: Manrope-Regular
+      fonts:
+        - asset: assets/fonts/Manrope-Regular.ttf
+          weight: 400
