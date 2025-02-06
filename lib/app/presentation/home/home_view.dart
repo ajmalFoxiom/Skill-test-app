@@ -8,6 +8,7 @@ import 'package:test_app/core/navigators/page_navigator.dart';
 import 'package:test_app/shared/utils/constants.dart';
 import 'package:test_app/shared/widgets/app_text.dart';
 
+import '../../../core/extensions/context_ext.dart';
 import '../../../core/theme/colors.dart';
 import '../../../shared/widgets/image_slider.dart';
 import '../../controller/home_controller.dart';
@@ -59,15 +60,12 @@ class HomeView extends StatelessWidget {
                                 message:
                                     "No products available at the moment\nPlease check back later",
                               ),
-
                             buildProductGrid(
                               controller.isLoading.value,
                               controller.popularProducts,
+                              context,
                             ),
-
                             16.hBox,
-
-                          
                             buildSectionHeader("Latest Products"),
                             8.hBox,
                             if (!controller.isLoading.value &&
@@ -79,6 +77,7 @@ class HomeView extends StatelessWidget {
                             buildProductGrid(
                               controller.isLoading.value,
                               controller.latestProducts,
+                              context,
                             ),
                             100.hBox
                           ],
@@ -108,16 +107,24 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  Widget buildProductGrid(bool isLoading, List<Product> products) {
+  Widget buildProductGrid(
+      bool isLoading, List<Product> products, BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    int crossAxisCount = getCrossAxisCount(screenWidth);
+    double aspectRatio = getAspectRatio(screenWidth);
+    double crossAxisSpacing = getCrossAxisSpacing(screenWidth);
+    double mainAxisSpacing = getMainAxisSpacing(screenWidth);
+
     return GridView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.74.h,
-        crossAxisSpacing: 16.w,
-        mainAxisSpacing: 12.h,
+        crossAxisCount: crossAxisCount,
+        childAspectRatio: aspectRatio,
+        crossAxisSpacing: crossAxisSpacing,
+        mainAxisSpacing: mainAxisSpacing,
       ),
       itemCount: isLoading ? 4 : products.length,
       itemBuilder: (context, index) {

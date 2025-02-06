@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:test_app/app/controller/home_controller.dart';
 import 'package:test_app/core/extensions/margin_ext.dart';
 
+import '../../../core/extensions/context_ext.dart';
 import '../../controller/search_controller.dart';
 import '../../model/product_model.dart';
 import '../../widget/custom_search_bar.dart';
@@ -27,7 +28,6 @@ class ProductsSearch extends StatelessWidget {
             CustomSearchBar(
               controller: controller.searchCtrl,
               onChanged: (value) {
-               
                 Future.delayed(const Duration(milliseconds: 500), () {
                   if (value == controller.searchCtrl.text) {
                     controller.getProductsDetails(value);
@@ -44,10 +44,8 @@ class ProductsSearch extends StatelessWidget {
                     EmptyStateWidget(
                       message: "No product available",
                     ),
-                  buildProductGrid(
-                    controller.isLoading.value,
-                    controller.allProducts,
-                  ),
+                  buildProductGrid(controller.isLoading.value,
+                      controller.allProducts, context),
                 ],
               ),
             ),
@@ -57,16 +55,23 @@ class ProductsSearch extends StatelessWidget {
     );
   }
 
-  Widget buildProductGrid(bool isLoading, List<Product> products) {
+  Widget buildProductGrid(
+      bool isLoading, List<Product> products, BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    int crossAxisCount = getCrossAxisCount(screenWidth);
+    double aspectRatio = getAspectRatio(screenWidth);
+    double crossAxisSpacing = getCrossAxisSpacing(screenWidth);
+    double mainAxisSpacing = getMainAxisSpacing(screenWidth);
     return GridView.builder(
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.74.h,
-        crossAxisSpacing: 16.w,
-        mainAxisSpacing: 12.h,
+        crossAxisCount: crossAxisCount,
+        childAspectRatio: aspectRatio,
+        crossAxisSpacing: crossAxisSpacing,
+        mainAxisSpacing: mainAxisSpacing,
       ),
       itemCount: isLoading ? 4 : products.length,
       itemBuilder: (context, index) {
